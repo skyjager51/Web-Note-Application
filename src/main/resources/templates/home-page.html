@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/css/homepage.css}">
+</head>
+<body>
+    <div id="interactive-container">
+        <div id="home-text">
+            <p id="text">Welcome to the homepage of your note application!</p>
+        </div>
+        <div id="home-interactions">
+            <button type="button" id="fetch-severity-button" class="button"> Sorted by severity</button>
+            <button type="button" id="fetch-date-button" class="button"> Sorted by date</button>
+            <a id="formbutton" th:href="@{/new-note}">Click here to create a new note</a>
+        </div>
+    </div>
+
+    <div id="results"></div>
+
+    <script>
+        document.getElementById("fetch-severity-button").addEventListener("click",
+        async function(event){
+
+            try{
+                const response = await fetch("http://localhost:8080/get-sorted-note/1", {
+                    method : "GET"
+                });
+
+                const data = await response.json();
+
+                // 1. Use map() to transform the array of notes into an array of HTML strings
+                    const notesHtmlArray = data.map(note => {
+                        return `
+                            <div class="note-card" id="note-${note.id}">
+                                <p>Note ID: ${note.id}<p>
+                                <p>Date: <strong>${note.date}</strong></p>
+                                <p>Severity: <strong>${note.severity}</strong></p>
+                                <p>${note.body}</p>
+                                <button type="button" class="delete-button" data-note-id=${note.id}>Delete note</button>
+                            </div>
+                        `;
+                    });
+
+                    // 2. Use join('') to combine the array of HTML strings into one single string
+                    const notesHtml = notesHtmlArray.join('');
+
+                    // 3. Set the innerHTML with the final HTML string
+                    document.getElementById("results").innerHTML = notesHtml;
+
+            } catch (err){
+                document.getElementById("results").innerHTML = 
+                    `<p> The error < ${err} > has occoured. please reload the page </p>`
+            }
+        }
+        );
+
+        document.getElementById("fetch-date-button").addEventListener("click",
+        async function(event){
+
+            try{
+                const response = await fetch("http://localhost:8080/get-sorted-note/0", {
+                    method : "GET"
+                });
+
+                const data = await response.json();
+
+                // 1. Use map() to transform the array of notes into an array of HTML strings
+                    const notesHtmlArray = data.map(note => {
+                        return `
+                            <div class="note-card" id="note-${note.id}">
+                                <p>Note ID: ${note.id}<p>
+                                <p>Date: <strong>${note.date}</strong></p>
+                                <p>Severity: <strong>${note.severity}</strong></p>
+                                <p>${note.body}</p>
+                                <button type="button" class="delete-button" data-note-id=${note.id}>Delete note</button>
+                            </div>
+                        `;
+                    });
+
+                    // 2. Use join('') to combine the array of HTML strings into one single string
+                    const notesHtml = notesHtmlArray.join('');
+
+                    // 3. Set the innerHTML with the final HTML string
+                    document.getElementById("results").innerHTML = notesHtml;
+
+            } catch (err){
+                document.getElementById("results").innerHTML = 
+                    `<p> The error < ${err} > has occoured. please reload the page </p>`
+            }
+        }
+        );
+
+        // Function to handle the actual API call for deletion
+        async function deleteNote(noteId) {
+            const deleteEndpoint = `http://localhost:8080/delete/${noteId}`; 
+
+            try {
+                const response = await fetch(deleteEndpoint, {
+                    method: "DELETE" 
+                });
+
+                if (response.ok) {
+                    alert(`Note ${noteId} successfully deleted!`);
+                    
+                    //Remove the note element from the DOM without reloading
+                    const noteElement = document.getElementById(`note-${noteId}`);
+                    if (noteElement) {
+                        noteElement.nextElementSibling.remove(); // Remove the <hr>
+                        noteElement.remove(); // Remove the note-card 
+                    }
+                } else {
+                    const errorText = await response.text();
+                    alert(`Failed to delete note ${noteId}`);
+                }
+
+            } catch (err) {
+                console.error(`Error during deletion of note ${noteId}:`, err);
+                alert(`Network error during deletion: ${err.message}`);
+            }
+        }
+
+        // Function to set up event delegation
+        function attachDeleteButtonListener() {
+            // We listen on the parent container (id="results") because it exists when the page loads.
+            document.getElementById("results").addEventListener("click", function(event) {
+                
+                // Check if the clicked element (or its parent) is the delete button
+                const button = event.target.closest('.delete-button');
+
+                if (button) {
+                    // Retrieve the ID using the .dataset property
+                    const noteId = button.dataset.noteId; 
+                    
+                    // Trigger the confirmation banner
+                    if (confirm(`Are you sure you want to delete note ID ${noteId}?`)) {
+                        deleteNote(noteId);
+                    } else {
+                        console.log(`Deletion of note ${noteId} cancelled.`);
+                    }
+                }
+            });
+        }
+
+        //call the function to delete a note when a button is clicked
+        attachDeleteButtonListener();
+
+        //creating function to click the severity-button to display to the user the notes in severity order when the page gets loaded
+        function clickFunction(){
+            const button = document.getElementById('fetch-severity-button');
+            button.click()
+        }
+
+        //calling the function
+        clickFunction()
+    </script>
+</body>
+</html>

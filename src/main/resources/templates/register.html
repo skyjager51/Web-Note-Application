@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+</head>
+<body id="background">
+    <div id="return">
+        <a id="hyperlink" th:href="@{/}">Return to landing-page for login</a>
+    </div>
+    <h1 class="text">Register Form</h1>
+
+    <div id="result"></div>
+
+    <form id="detail-form">
+        <input type="text" placeholder="Username" class="form-element" id="username" required> 
+        <input type="password" placeholder="Password" class="form-element" id="password" required> 
+        <button type="submit" class="button form-element">Register</button>
+    </form>
+
+    <script>
+        document.getElementById("detail-form").addEventListener("submit",
+            async function(event){
+                event.preventDefault();
+
+                const input_username = document.getElementById("username").value;
+                const input_password = document.getElementById("password").value;
+
+                try{
+                    const response = await fetch("http://localhost:8080/register", {
+                        method : "POST",
+                        headers: {"Content-Type" : "application/json"},
+                        body : JSON.stringify({username: input_username,
+                                               password: input_password
+                                               })
+                    });
+
+                    const data = await response.json();
+
+                    document.getElementById("result").innerHTML =
+                        `<p id="message"> registered </p> `;
+
+                    // Show the result div
+                    document.getElementById("result").style.display = "flex";
+
+
+                } catch (err){
+                    console.error("Network Error during registration:", err);
+                    document.getElementById("result").innerHTML =
+                    `<p id="error-message"> error in registering the new user, try with different credentials </p>`;
+                }
+            } 
+        );
+    </script>
+</body>
+</html>

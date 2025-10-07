@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LandingPage</title>
+    <link rel="stylesheet" th:href="@{/css/landingpage.css}">
+</head>
+<body id="background">
+    
+    <h1 id="title">The Simple Way to Keep Track of Everything.</h1>
+    <p id="text"> Welcome! We've made note-taking simple, fast, and accessible from anywhere. <br>
+        Whether it's a quick thought, a detailed project plan, or a shopping list, we'll keeps your ideas secure and perfectly organized. <br>
+        Ready to start writing?</p>
+
+
+    <div id="button-container">
+        <a id="login" class="button" th:href="@{/home-page}">Login</a>
+
+        <a id="register" class="button" th:href="@{/register}">Register</a>
+    </div>
+
+
+    <div id="insights">
+        <div class="element">
+            <h2>Access from anywhere</h2>
+            <p>Your notes are always with you. Access them seamlessly across all your devices—desktop,
+                 tablet, or phone. All data is securely synced and backed up in the cloud.</p>
+        </div>
+    
+        <div class="element">
+            <h2>Track Everything</h2>
+            <p>Capture every detail. From quick to-do lists and meeting minutes to long text 
+                blocks, our app is the right choice.</p>
+        </div>
+    
+        <div class="element">
+            <h2>Find Everything</h2>
+            <p>Never lose an idea again. Here you can add any idea you want, and 
+                then you can sort them by importance or date.</p>
+        </div>
+    </div>
+
+
+    <footer id="footer">
+        <p>about</p>
+        <p>Hi! i'm Lorenzo, if you like my projects, fell free to visit my
+            <a href="https://www.linkedin.com/in/lorenzo-faccio/">LinkedIn!</a>
+        </p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Note</title>
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+</head>
+<body id="background">
+    <div id="return">
+        <a id="hyperlink" th:href="@{/home-page}">Return to home-page to see new notes</a>
+    </div>
+    <h1 class="text">New Note Form</h1>
+
+    <div id="result"></div>
+
+    <form id="detail-form">
+        <input type="text" placeholder="Severity (High/Medium/Low)" id="severity"
+        class="form-element" pattern="^(High|Medium|Low)$" required> 
+
+        <input type="text" placeholder="Date (month/day/year)" id="date"
+        class="form-element" pattern="^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$" required> 
+         
+        <textarea name="body" id="body" placeholder="Body" rows="5"></textarea>
+        <button type="submit" class="button form-element">Create Note</button>
+    </form>
+
+    <script>
+        document.getElementById("detail-form").addEventListener("submit",
+            async function(event){
+                event.preventDefault();
+
+                const input_severity = document.getElementById("severity").value;
+                const input_date = document.getElementById("date").value;
+                const input_body = document.getElementById("body").value;
+
+                try{
+                    const response = await fetch("http://localhost:8080/save", {
+                        method : "POST",
+                        headers: {"Content-Type" : "application/json"},
+                        body : JSON.stringify({severity: input_severity,
+                                               date: input_date,
+                                               body: input_body
+                                               })
+                    });
+
+                    const data = await response.json();
+
+                    document.getElementById("result").innerHTML =
+                        `<p id="message"> note saved! </p>`;
+
+                    // Show the result div
+                    document.getElementById("result").style.display = "flex";
+
+
+                } catch (err){
+                    console.error("Network Error during registration:", err);
+                    document.getElementById("result").innerHTML =
+                    `<p id="error-message"> error in creating the new note, try again later </p>`;
+                }
+            } 
+        );
+    </script>
+</body>
+</html>

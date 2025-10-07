@@ -1,0 +1,88 @@
+
+#interactive-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+    background-color: antiquewhite;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    align-items: center;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(253, 242, 227);
+}
+
+#home-text{
+    margin-left: 10px;
+}
+
+#home-interactions{
+    margin-right: 10px;
+    gap: 5px;
+}
+
+#formbutton{
+    color: black;
+}
+
+.note-card{
+    background-color: antiquewhite;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 30px 0px 30px 0px;
+    padding: 10px;
+    min-width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#results{
+    margin-top: 50px;
+    min-width: 30%;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+#text{
+    font-weight: 600;
+}
+
+.button{
+    background-color: rgb(214, 159, 56);
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.delete-button{
+    background-color: rgb(255, 168, 134);
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+@media(max-width: 480px){
+    #interactive-container{
+        display: flex;
+        flex-direction: column;
+        border: 2px solid black;
+    }
+
+    #home-interactions{
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 10px;
+    }
+
+    #results{
+    margin-top: 150px;
+    min-width: 30%;
+    margin-left: 15%;
+    margin-right: 15%;
+    }
+}
