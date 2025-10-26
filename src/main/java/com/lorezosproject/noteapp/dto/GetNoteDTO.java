@@ -1,5 +1,7 @@
 package com.lorezosproject.noteapp.dto;
 
+import com.lorezosproject.noteapp.utilities.Severity;
+
 public class GetNoteDTO {
 
     //fields
@@ -7,7 +9,7 @@ public class GetNoteDTO {
 
     private String username;
     
-    private String severity;
+    private Severity severity;
 
     private String date;
 
@@ -19,7 +21,7 @@ public class GetNoteDTO {
 
     }
 
-    public GetNoteDTO(int id, String username, String severity, String date, String body) {
+    public GetNoteDTO(int id, String username, Severity severity, String date, String body) {
         this.id = id;
         this.username = username;
         this.severity = severity;
@@ -45,11 +47,11 @@ public class GetNoteDTO {
         this.username = username;
     }
 
-    public String getSeverity() {
+    public Severity getSeverity() {
         return severity;
     }
 
-    public void setSeverity(String severity) {
+    public void setSeverity(Severity severity) {
         this.severity = severity;
     }
 

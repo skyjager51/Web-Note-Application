@@ -1,5 +1,7 @@
 package com.lorezosproject.noteapp.dto;
 
+import com.lorezosproject.noteapp.utilities.Severity;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
@@ -11,7 +13,7 @@ public class PostNoteDTO {
 
     @Pattern(regexp = "^(High|Medium|Low)$")
     @NotNull
-    private String severity;
+    private Severity severity;
 
     @Pattern(regexp = "^(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[01])/\\d{4}$", message = "The date is not in a valid format")
     @NotNull
@@ -30,11 +32,11 @@ public class PostNoteDTO {
         this.username = username;
     }
 
-    public String getSeverity() {
+    public Severity getSeverity() {
         return severity;
     }
 
-    public void setSeverity(String severity) {
+    public void setSeverity(Severity severity) {
         this.severity = severity;
     }
 

@@ -4,9 +4,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
+import com.lorezosproject.noteapp.utilities.Severity;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,7 +31,8 @@ public class NoteDetailEntity {
     private String username;
 
     @Column(name = "note_importnace")
-    private String severity;
+    @Enumerated(EnumType.STRING)
+    private Severity severity;
 
     @Column(name = "note_date")
     private String date;
@@ -41,11 +46,12 @@ public class NoteDetailEntity {
 
     }
 
-    public NoteDetailEntity(String username, String severity, String date) {
+    public NoteDetailEntity(String username, Severity severity, String date) {
         this.username = username;
         this.severity = severity;
         this.date = date;
     }
+    
 
     //getter / setter
     public String getUsername() {
@@ -56,11 +62,11 @@ public class NoteDetailEntity {
         this.username = username;
     }
 
-    public String getSeverity() {
+    public Severity getSeverity() {
         return severity;
     }
 
-    public void setSeverity(String severity) {
+    public void setSeverity(Severity severity) {
         this.severity = severity;
     }
 
@@ -100,7 +106,7 @@ public class NoteDetailEntity {
     }
 
     public int getNumericValueForSeverity(){
-        Map<String, Integer> translateMap = Map.of("High", 1, "Medium", 2, "Low" , 3);
+        Map<Severity, Integer> translateMap = Map.of(Severity.High, 1, Severity.Medium, 2, Severity.Low , 3);
 
         return translateMap.get(severity);
     }
