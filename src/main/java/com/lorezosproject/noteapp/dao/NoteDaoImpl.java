@@ -8,6 +8,7 @@ import com.lorezosproject.noteapp.entity.NoteDetailEntity;
 import com.lorezosproject.noteapp.entity.UserEntity;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
@@ -24,8 +25,20 @@ public class NoteDaoImpl implements NoteDao{
     //save the username and password in the db
     @Override
     @Transactional
-    public void saveRegister(UserEntity userEntity) {
-        entityManager.persist(userEntity);
+    public UserEntity saveRegister(UserEntity userEntity) {
+        //check if the user is already registered
+        TypedQuery<UserEntity> query = entityManager.createQuery(
+            "SELECT u FROM UserEntity u WHERE u.username = :name", UserEntity.class
+        );
+
+        query.setParameter("name", userEntity.getUsername());
+
+        try{
+            return query.getSingleResult();
+        }
+        catch (NoResultException e){
+            return entityManager.merge(userEntity);
+        }
     }
 
     //save the note detail and the note body

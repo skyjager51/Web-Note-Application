@@ -8,7 +8,7 @@ import com.lorezosproject.noteapp.entity.UserEntity;
 //data transfer objcet interface to standardize classes
 public interface NoteDao {
 
-    void saveRegister(UserEntity userEntity);
+    UserEntity saveRegister(UserEntity userEntity);
 
     NoteDetailEntity saveNote(NoteDetailEntity noteDetailEntity);
 
