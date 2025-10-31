@@ -33,8 +33,9 @@ public class NoteDaoImpl implements NoteDao{
 
         query.setParameter("name", userEntity.getUsername());
 
-        try{
-            return query.getSingleResult();
+        try{    
+            query.getSingleResult();
+            throw new IllegalArgumentException("Username already exist");
         }
         catch (NoResultException e){
             return entityManager.merge(userEntity);

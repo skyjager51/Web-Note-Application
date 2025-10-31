@@ -64,7 +64,7 @@ public class NoteController {
 
             //return an http response based on the success/fail of the operation
             return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "user created"));
-        } catch (Exception e){
+        } catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "user not created"));
         }
     }
